@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.dtos.UserDto;
 import com.blog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -31,7 +33,7 @@ public class UserController {
 	 * Create a new user
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userReq) {
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userReq) {
 		 UserDto userDto = userService.createUser(userReq);
 		 return new ResponseEntity<UserDto>(userDto, HttpStatus.CREATED);
 	}
@@ -40,7 +42,7 @@ public class UserController {
 	 * Update information of existing user
 	 */
 	@PatchMapping(path = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDto> updateUser(@PathVariable String userId, @RequestBody UserDto userReq) {
+	public ResponseEntity<UserDto> updateUser(@PathVariable String userId,@Valid @RequestBody UserDto userReq) {
 		 UserDto updateUser = userService.updateUser(userReq, Long.parseLong(userId));
 		 return new ResponseEntity<>(updateUser, HttpStatus.OK);
 	}
@@ -71,6 +73,6 @@ public class UserController {
 		userService.deleteUser(Long.parseLong(userId));
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("message", "Deleted successfully");
-		return new ResponseEntity<>(map, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }

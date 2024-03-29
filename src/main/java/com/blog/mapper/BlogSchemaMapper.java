@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.blog.dtos.CategoryDto;
 import com.blog.dtos.UserDto;
+import com.blog.entities.Category;
 import com.blog.entities.User;
 
 @Mapper(componentModel = "spring")
@@ -30,5 +32,10 @@ public interface BlogSchemaMapper {
 	}
 
 	@Mapping(target = "createdAt", expression = "java(convertTimestampToString(user.getCreatedAt()))")
-	UserDto toUserDto(User user);;
+	@Mapping(target = "message", ignore = true)
+	UserDto toUserDto(User user);
+
+	Category toCategory(CategoryDto categoryReq);
+
+	CategoryDto toCategoryDto(Category savedCategory);
 }
