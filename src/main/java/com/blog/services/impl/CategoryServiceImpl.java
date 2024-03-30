@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.CategoryDto;
 import com.blog.entities.Category;
 import com.blog.exception.ResourceNotFoundException;
@@ -31,7 +32,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryReq, Long categoryId) {
-		Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "ID", categoryId));
+		Category category = categoryRepo.findById(categoryId)
+				.orElseThrow(()-> new ResourceNotFoundException(BlogApplicationConstant.CATEGORY, BlogApplicationConstant.ID, categoryId));
 		updateCategoryDate(category, categoryReq);
 		categoryRepo.save(category);
 		return blogSchemaMapper.toCategoryDto(category);
@@ -44,7 +46,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public CategoryDto getCategoryById(Long categoryId) {
-		Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "ID", categoryId));
+		Category category = categoryRepo.findById(categoryId)
+				.orElseThrow(()-> new ResourceNotFoundException(BlogApplicationConstant.CATEGORY, BlogApplicationConstant.ID, categoryId));
 		return blogSchemaMapper.toCategoryDto(category);
 	}
 
@@ -58,7 +61,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void deleteCategory(Long categoryId) {
-		Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "ID", categoryId));
+		Category category = categoryRepo.findById(categoryId)
+				.orElseThrow(()-> new ResourceNotFoundException(BlogApplicationConstant.CATEGORY, BlogApplicationConstant.ID, categoryId));
 		categoryRepo.delete(category);
 	}
 

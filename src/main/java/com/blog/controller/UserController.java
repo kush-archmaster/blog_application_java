@@ -10,13 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.UserDto;
 import com.blog.services.UserService;
 
@@ -41,7 +42,7 @@ public class UserController {
 	/*
 	 * Update information of existing user
 	 */
-	@PatchMapping(path = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> updateUser(@PathVariable String userId,@Valid @RequestBody UserDto userReq) {
 		 UserDto updateUser = userService.updateUser(userReq, Long.parseLong(userId));
 		 return new ResponseEntity<>(updateUser, HttpStatus.OK);
@@ -72,7 +73,7 @@ public class UserController {
 	public ResponseEntity<Map<String, String>> deleteUserById(@PathVariable String userId) {
 		userService.deleteUser(Long.parseLong(userId));
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("message", "Deleted successfully");
+		map.put(BlogApplicationConstant.MSG, BlogApplicationConstant.DELETE_SUCCESS);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }

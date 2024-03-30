@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.UserDto;
 import com.blog.entities.User;
 import com.blog.exception.ResourceNotFoundException;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto updateUser(UserDto userDto, Long userId) {
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+				.orElseThrow(() -> new ResourceNotFoundException(BlogApplicationConstant.USER, BlogApplicationConstant.ID, userId));
 		updateUserDetails(user, userDto);
 		User savedUser = userRepository.save(user);
 		return blogSchemaMapper.toUserDto(savedUser);
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto getUserById(Long userId) {
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+				.orElseThrow(() -> new ResourceNotFoundException(BlogApplicationConstant.USER, BlogApplicationConstant.ID, userId));
 		return blogSchemaMapper.toUserDto(user);
 	}
 
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Long userId) {
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+				.orElseThrow(() -> new ResourceNotFoundException(BlogApplicationConstant.USER, BlogApplicationConstant.ID, userId));
 		userRepository.delete(user);
 	}
 

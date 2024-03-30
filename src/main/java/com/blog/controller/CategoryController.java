@@ -10,13 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.CategoryDto;
 import com.blog.services.CategoryService;
 
@@ -41,7 +42,7 @@ public class CategoryController {
 	/*
 	 * Update information of existing Category
 	 */
-	@PatchMapping(path = "/{categoryId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/{categoryId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CategoryDto> updateCategory(@PathVariable String categoryId,@Valid @RequestBody CategoryDto categoryReq) {
 		 CategoryDto updateCategory = categoryService.updateCategory(categoryReq, Long.parseLong(categoryId));
 		 return new ResponseEntity<>(updateCategory, HttpStatus.OK);
@@ -72,7 +73,7 @@ public class CategoryController {
 	public ResponseEntity<Map<String, String>> deleteCategoryById(@PathVariable String categoryId) {
 		categoryService.deleteCategory(Long.parseLong(categoryId));
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("message", "Deleted successfully");
+		map.put(BlogApplicationConstant.MSG, BlogApplicationConstant.DELETE_SUCCESS);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }

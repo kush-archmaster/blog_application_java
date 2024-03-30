@@ -10,14 +10,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.PostDto;
 import com.blog.dtos.PostResponse;
 import com.blog.services.PostService;
@@ -46,7 +47,7 @@ public class PostController {
 	/*
 	 * Update information of existing Category
 	 */
-	@PatchMapping(path = "/posts/{postId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/posts/{postId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PostDto> updateCategory(@PathVariable String postId, @Valid @RequestBody PostDto postReq) {
 		PostDto updatedPost = postService.updatePost(postReq, Long.parseLong(postId));
 		 return new ResponseEntity<>(updatedPost, HttpStatus.OK);
@@ -80,7 +81,7 @@ public class PostController {
 	public ResponseEntity<Map<String, String>> deleteCategoryById(@PathVariable String postId) {
 		postService.deletePost(Long.parseLong(postId));
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("message", "Deleted successfully");
+		map.put(BlogApplicationConstant.MSG, BlogApplicationConstant.DELETE_SUCCESS);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
@@ -101,5 +102,14 @@ public class PostController {
 	public ResponseEntity<List<PostDto>> getPostsByUserId(@PathVariable String userId) {
 		List<PostDto> posts = postService.getPostsByUser(Long.parseLong(userId));
 		return ResponseEntity.ok(posts);
+	}
+	
+	/*
+	 * search posts by keyword in title
+	 */
+	@GetMapping(path = "/posts/search/{keywords}")
+	public ResponseEntity<List<PostDto>> searchPosts(@PathVariable String keywords) {
+		List<PostDto> postsDto = postService.searchPosts(keywords);
+		return ResponseEntity.ok(postsDto);
 	}
 }
