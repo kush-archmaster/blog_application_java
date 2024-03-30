@@ -1,19 +1,25 @@
 package com.blog.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.dtos.PostDto;
+import com.blog.dtos.PostResponse;
 import com.blog.services.PostService;
 
 import jakarta.validation.Valid;
@@ -40,40 +46,43 @@ public class PostController {
 	/*
 	 * Update information of existing Category
 	 */
-//	@PatchMapping(path = "/{categoryId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<CategoryDto> updateCategory(@PathVariable String categoryId,@Valid @RequestBody CategoryDto categoryReq) {
-//		 CategoryDto updateCategory = postService.updateCategory(categoryReq, Long.parseLong(categoryId));
-//		 return new ResponseEntity<>(updateCategory, HttpStatus.OK);
-//	}
-//	
-	/*
-	 * Get Category details based on CategoryId
-	 */
-//	@GetMapping("/{categoryId}")
-//	public ResponseEntity<CategoryDto> getCategoryById(@PathVariable String categoryId) {
-//		 CategoryDto categoryDto = postService.getCategoryById(Long.parseLong(categoryId));
-//		 return new ResponseEntity<>(categoryDto, HttpStatus.OK);
-//	}
+	@PatchMapping(path = "/posts/{postId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PostDto> updateCategory(@PathVariable String postId, @Valid @RequestBody PostDto postReq) {
+		PostDto updatedPost = postService.updatePost(postReq, Long.parseLong(postId));
+		 return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+	}
 	
 	/*
-	 * Get all categories
+	 * Get post details based on postId
 	 */
-//	@GetMapping("/")
-//	public ResponseEntity<List<CategoryDto>> getAllCategories() {
-//		 List<CategoryDto> allCategories = postService.getAllCategories();
-//		 return new ResponseEntity<>(allCategories, HttpStatus.OK);
-//	}
+	@GetMapping("/posts/{postId}")
+	public ResponseEntity<PostDto> getCategoryById(@PathVariable String postId) {
+		PostDto postDto = postService.getPostById(Long.parseLong(postId));
+		 return new ResponseEntity<>(postDto, HttpStatus.OK);
+	}
 	
 	/*
-	 * Delete a Category
+	 * Get all posts
 	 */
-//	@DeleteMapping(path = "/{categoryId}")
-//	public ResponseEntity<Map<String, String>> deleteCategoryById(@PathVariable String categoryId) {
-//		postService.deleteCategory(Long.parseLong(categoryId));
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("message", "Deleted successfully");
-//		return new ResponseEntity<>(map, HttpStatus.OK);
-//	}
+	@GetMapping("/posts")
+	public ResponseEntity<PostResponse> getAllPosts(
+			@RequestParam(name = "size", required = false) Integer pageSize, 
+			@RequestParam(name = "page", required = false) Integer pageNo,
+			@RequestParam(name = "sortBy", defaultValue = "postId", required = false) String sortBy) {
+		PostResponse allPosts = postService.getAllPosts(pageSize, pageNo, sortBy);
+		 return new ResponseEntity<>(allPosts, HttpStatus.OK);
+	}
+	
+	/*
+	 * Delete a post
+	 */
+	@DeleteMapping(path = "/posts/{postId}")
+	public ResponseEntity<Map<String, String>> deleteCategoryById(@PathVariable String postId) {
+		postService.deletePost(Long.parseLong(postId));
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("message", "Deleted successfully");
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
 	
 	/*
 	 * Get posts by categoryId

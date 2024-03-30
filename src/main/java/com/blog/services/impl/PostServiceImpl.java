@@ -1,12 +1,18 @@
 package com.blog.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.dtos.PostDto;
+import com.blog.dtos.PostResponse;
 import com.blog.entities.Category;
 import com.blog.entities.Post;
 import com.blog.entities.User;
@@ -50,26 +56,52 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public PostDto updatePost(PostDto postReq, Long postId) {
-		// TODO Auto-generated method stub
-		return null;
+		Post post = postRepo.findById(postId)
+				.orElseThrow(()-> new ResourceNotFoundException("Post", "Id", postId));
+		post.setContent(postReq.getContent());
+		post.setTitle(postReq.getTitle());
+		Post updatedPost = postRepo.save(post);
+		return blogSchemaMapper.toPostDto(updatedPost);
 	}
 
 	@Override
 	public PostDto getPostById(Long postId) {
-		// TODO Auto-generated method stub
-		return null;
+		Post post = postRepo.findById(postId)
+				.orElseThrow(()-> new ResourceNotFoundException("Post", "Id", postId));
+		return blogSchemaMapper.toPostDto(post);
 	}
 
 	@Override
-	public List<PostDto> getAllPosts() {
-		// TODO Auto-generated method stub
-		return null;
+	public PostResponse getAllPosts(Integer pageSize, Integer pageNo, String sortBy) {
+		PostResponse postRes = new PostResponse();
+		List<Post> postList = new ArrayList<>();
+		if(pageSize!=null && pageNo!=null) {
+			Pageable p = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+			Page<Post> pageObj = postRepo.findAll(p);
+			postList = pageObj.getContent();
+			setPageProperties(postRes, pageObj);
+		}
+		else {
+			postList = postRepo.findAll();
+		}
+		postRes.setContent(postList.stream().map(post -> blogSchemaMapper.toPostDto(post))
+				.collect(Collectors.toList()));
+		return postRes;
+	}
+
+	private void setPageProperties(PostResponse postRes, Page<Post> pageObj) {
+		postRes.setPageNo(pageObj.getNumber());
+		postRes.setPageSize(pageObj.getSize());
+		postRes.setTotalPages(pageObj.getTotalPages());
+		postRes.setTotalElements(pageObj.getTotalElements());
+		postRes.setLastPage(pageObj.isLast());
 	}
 
 	@Override
 	public void deletePost(Long postId) {
-		// TODO Auto-generated method stub
-		
+		Post post = postRepo.findById(postId)
+				.orElseThrow(()-> new ResourceNotFoundException("Post", "Id", postId));
+		postRepo.delete(post);
 	}
 
 	@Override
