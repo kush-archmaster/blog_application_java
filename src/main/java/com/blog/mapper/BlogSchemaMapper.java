@@ -31,6 +31,7 @@ public interface BlogSchemaMapper {
 	@Mapping(target = "createdAt", expression = "java(getCurrentTime())")
 	Post toPost(PostDto postReq);
 	
+	@Mapping(target = "image", source = "img")
 	PostDto toPostDto(Post savedPost);
 	
 	default Timestamp getCurrentTime() {

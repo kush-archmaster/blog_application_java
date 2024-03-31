@@ -61,6 +61,7 @@ public class PostServiceImpl implements PostService{
 				.orElseThrow(()-> new ResourceNotFoundException(BlogApplicationConstant.POST, BlogApplicationConstant.ID, postId));
 		post.setContent(postReq.getContent());
 		post.setTitle(postReq.getTitle());
+		post.setImg(postReq.getImage());
 		Post updatedPost = postRepo.save(post);
 		return blogSchemaMapper.toPostDto(updatedPost);
 	}

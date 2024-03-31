@@ -26,6 +26,7 @@ public class PostDto {
 	@Size(min = 100, message = "Content should be greated than 100 characters!")
 	private String content;
 	private String createdAt;
+	private String image;
 	private CategoryDto category;
 	private UserDto user;
 }
