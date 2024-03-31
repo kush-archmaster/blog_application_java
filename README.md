@@ -1,13 +1,13 @@
 <h3> Use Case : </h3>
 The client wants a blogging application where we can write blogs/articles.
 
-User can comment on the blogs/articles.
+Users can comment on the blogs/articles.
 
 <h4>Operations which should be available:</h4> <br/>
 
 1. The user can create, update, delete, and list posts.
 2. The user should add, update, and delete comments on posts.
-3. Categories the posts (based on specified categories, let's say cricket, politics, etc.)
+3. Categorize the posts (based on specified categories, let's say cricket, politics, etc.)
 4. New users should be able to register on the application.
 5. User should be able to log in/log out from the application.
 6. Post can have a picture/image upload option too.
