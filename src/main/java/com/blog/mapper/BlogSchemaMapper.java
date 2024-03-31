@@ -8,9 +8,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.blog.dtos.CategoryDto;
+import com.blog.dtos.CommentDto;
 import com.blog.dtos.PostDto;
 import com.blog.dtos.UserDto;
 import com.blog.entities.Category;
+import com.blog.entities.Comment;
 import com.blog.entities.Post;
 import com.blog.entities.User;
 
@@ -46,4 +48,8 @@ public interface BlogSchemaMapper {
 		}
 		return null;
 	}
+
+	Comment toComment(CommentDto commentReq);
+
+	CommentDto toCommentDto(Comment savedComment);
 }

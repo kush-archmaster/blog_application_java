@@ -6,12 +6,15 @@ public class BlogApplicationConstant {
 
 	public static final String MSG = "message";
 	public static final String ERROR_CODE = "1000";
+	public static final String ERROR_CODE_1 = "1001";
+	public static final String DELETE_SUCCESS = "Deleted Successfully!";
 	
 	public static final String CATEGORY = "Category";
 	public static final String USER = "User";
 	public static final String POST = "Post";
 	public static final String ID = "ID";
-	public static final String DELETE_SUCCESS = "Deleted Successfully!";
+	public static final String IMG = "Image";
+	public static final String COMMENT = "Comment";
 
 	
 }

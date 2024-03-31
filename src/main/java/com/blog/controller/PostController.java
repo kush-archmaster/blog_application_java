@@ -46,7 +46,7 @@ public class PostController {
 	private String path;
 
 	/*
-	 * Create a new Category
+	 * Create a new Post
 	 */
 	@PostMapping(path = "/user/{userId}/category/{categoryId}/post", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postReq, @PathVariable String userId,
@@ -56,7 +56,7 @@ public class PostController {
 	}
 
 	/*
-	 * Update information of existing Category
+	 * Update information of existing Post
 	 */
 	@PutMapping(path = "/posts/{postId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PostDto> updateCategory(@PathVariable String postId, @Valid @RequestBody PostDto postReq) {
@@ -137,11 +137,11 @@ public class PostController {
 	/*
 	 * To serve the asked resource to client
 	 */
-	@GetMapping(path = "/post/image/{imgName}", produces = MediaType.IMAGE_PNG_VALUE)
+	@GetMapping(path = "/post/image/{postId}", produces = MediaType.IMAGE_PNG_VALUE)
 	public void downloadImage(
-			@PathVariable String imgName, 
+			@PathVariable String postId, 
 			HttpServletResponse httpResponse) throws IOException {
-		InputStream resource = fileService.getResource(path, imgName);
+		InputStream resource = fileService.getResource(path, Long.parseLong(postId));
 		httpResponse.setContentType(MediaType.IMAGE_PNG_VALUE);
 		StreamUtils.copy(resource, httpResponse.getOutputStream());
 	}

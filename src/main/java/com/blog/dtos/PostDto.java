@@ -1,11 +1,13 @@
 package com.blog.dtos;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +16,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostDto {
 
@@ -29,4 +30,5 @@ public class PostDto {
 	private String image;
 	private CategoryDto category;
 	private UserDto user;
+	private Set<CommentDto> comments=new HashSet<>(); 
 }

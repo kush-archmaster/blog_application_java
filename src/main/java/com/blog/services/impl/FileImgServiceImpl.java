@@ -9,13 +9,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.blog.constants.BlogApplicationConstant;
+import com.blog.entities.Post;
+import com.blog.exception.ResourceNotFoundException;
+import com.blog.repositories.PostRepository;
 import com.blog.services.FileImageService;
 
 @Service
 public class FileImgServiceImpl implements FileImageService{
+	
+	@Autowired
+	private PostRepository postRepo;
 	
 	@Override
 	public String uploadImg(String path, MultipartFile file) throws IOException {
@@ -36,10 +44,15 @@ public class FileImgServiceImpl implements FileImageService{
 	}
 
 	@Override
-	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
-		String fullPath = path + File.separator + fileName;
-		InputStream is = new FileInputStream(fullPath);
-		return is;
+	public InputStream getResource(String path, Long postId) throws FileNotFoundException {
+		Post post = postRepo.findById(postId)
+				.orElseThrow(()-> new ResourceNotFoundException(BlogApplicationConstant.POST, BlogApplicationConstant.ID, postId));
+		if(post.getImg()!=null) {
+			String fullPath = path + File.separator + post.getImg();
+			InputStream is = new FileInputStream(fullPath);
+			return is;
+		}
+		else throw new ResourceNotFoundException(BlogApplicationConstant.IMG, BlogApplicationConstant.ID, postId);
 	}
 
 }

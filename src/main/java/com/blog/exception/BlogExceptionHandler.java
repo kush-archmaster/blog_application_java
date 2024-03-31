@@ -1,5 +1,6 @@
 package com.blog.exception;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,12 @@ public class BlogExceptionHandler {
 			String fieldName = ((FieldError) err).getField();
 			errorsMap.put(fieldName, err.getDefaultMessage());
 		});
-		
 		return new ResponseEntity<>(errorsMap , HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(FileNotFoundException.class)
+	public ResponseEntity<ExceptionResponse> fileNotFoundExceptionHandler(FileNotFoundException ex) {
+		return new ResponseEntity<>(ExceptionResponse.builder()
+				.message(ex.getMessage()).code(BlogApplicationConstant.ERROR_CODE_1).build(), HttpStatus.NOT_FOUND);
 	}
 }
