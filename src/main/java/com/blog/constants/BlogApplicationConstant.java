@@ -15,6 +15,5 @@ public class BlogApplicationConstant {
 	public static final String ID = "ID";
 	public static final String IMG = "Image";
 	public static final String COMMENT = "Comment";
-
-	
+	public static final String EMAIL = "Email";
 }
