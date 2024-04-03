@@ -2,9 +2,15 @@ package com.blog.entities;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,8 +35,8 @@ import lombok.Setter;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User { /*implements UserDetails {*/
-//	private static final long serialVersionUID = 1L;
+public class User implements UserDetails {
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(generator = "user_seq")
@@ -54,36 +60,36 @@ public class User { /*implements UserDetails {*/
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		/* Each role is a granted authority for a user */
-//		List<SimpleGrantedAuthority> rolesGrantedAuthorities = roles.stream()
-//				.map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-//		return rolesGrantedAuthorities;
-//	}
-//
-//	@Override
-//	public String getUsername() {
-//		return this.email;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonExpired() {
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonLocked() {
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isCredentialsNonExpired() {
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isEnabled() {
-//		return true;
-//	}
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		/* Each role is a granted authority for a user */
+		List<SimpleGrantedAuthority> rolesGrantedAuthorities = roles.stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+		return rolesGrantedAuthorities;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

@@ -24,6 +24,7 @@ public interface BlogSchemaMapper {
 
 	@Mapping(target = "createdAt", expression = "java(convertTimestampToString(user.getCreatedAt()))")
 	@Mapping(target = "message", ignore = true)
+	@Mapping(target = "password", ignore = true)
 	UserDto toUserDto(User user);
 
 	Category toCategory(CategoryDto categoryReq);

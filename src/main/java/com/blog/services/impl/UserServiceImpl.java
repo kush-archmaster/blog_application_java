@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blog.constants.BlogApplicationConstant;
@@ -22,10 +23,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private BlogSchemaMapper blogSchemaMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = blogSchemaMapper.toUser(userDto);
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		User savedUser = userRepository.save(user);
 		return blogSchemaMapper.toUserDto(savedUser);
 	}

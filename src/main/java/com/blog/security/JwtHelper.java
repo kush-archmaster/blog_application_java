@@ -42,17 +42,12 @@ public class JwtHelper {
     }
 
     @SuppressWarnings("deprecation")
-    //for retrieveing any information from token we will need the secret key
+    //for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
     	return Jwts
     			.parser()
     			.setSigningKey(secret)
     			.parseClaimsJws(token).getBody();
-    }
-    
-    private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     //check if the token has expired
