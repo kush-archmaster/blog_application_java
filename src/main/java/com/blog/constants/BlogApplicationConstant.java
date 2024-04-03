@@ -16,4 +16,7 @@ public class BlogApplicationConstant {
 	public static final String IMG = "Image";
 	public static final String COMMENT = "Comment";
 	public static final String EMAIL = "Email";
+	
+    public static final String AUTH = "Authorization";
+	public static final String PREFIX_JWT_TOKEN = "Bearer";
 }

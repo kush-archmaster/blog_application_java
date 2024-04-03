@@ -38,4 +38,10 @@ public class BlogExceptionHandler {
 		return new ResponseEntity<>(ExceptionResponse.builder()
 				.message(ex.getMessage()).code(BlogApplicationConstant.ERROR_CODE_1).build(), HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(JwtException.class)
+	public ResponseEntity<ExceptionResponse> jwtExceptionHandler(JwtException ex) {
+		return new ResponseEntity<>(ExceptionResponse.builder()
+				.message(ex.getMessage()).code(BlogApplicationConstant.ERROR_CODE).build(), HttpStatus.UNAUTHORIZED);
+	}
 }
