@@ -24,7 +24,9 @@ public class SecurityConfig {
     	// configuration
     	http.csrf(csrf -> csrf.disable())
     	.cors(cors -> cors.disable())
-    	.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/category/**", "/api/v1/comments/**", "/api/v1/user/**", "/api/v1/users/**", "/api/v1/post/**" ,"/api/v1/posts/**").authenticated().requestMatchers("/api/v1/login").permitAll().anyRequest().authenticated())
+    	.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/category/**", "/api/v1/comments/**", "/api/v1/user/**", "/api/v1/users/**", "/api/v1/post/**" ,"/api/v1/posts/**").authenticated()
+    			.requestMatchers("/api/v1/auth/**").permitAll()
+    			.anyRequest().authenticated())
     	.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
     	.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     	

@@ -3,11 +3,14 @@ package com.blog.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JwtAuthResponse {
+public class JwtAuthRequest {
 
-	private String token;
+	private String username;
+	private String password;
 }
