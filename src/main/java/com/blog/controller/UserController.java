@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,8 +68,9 @@ public class UserController {
 	}
 	
 	/*
-	 * Delete a user
+	 * Delete a user -- only ADMIN
 	 */
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping(path = "/{userId}")
 	public ResponseEntity<Map<String, String>> deleteUserById(@PathVariable String userId) {
 		userService.deleteUser(Long.parseLong(userId));

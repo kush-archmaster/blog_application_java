@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.dtos.JwtAuthRequest;
 import com.blog.dtos.JwtAuthResponse;
+import com.blog.exception.JwtException;
 import com.blog.security.JwtHelper;
 
 @RestController
@@ -46,8 +47,7 @@ public class AuthController {
         try {
         	authenticationManager.authenticate(authentication);
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException(" Invalid Username or Password  !!");
+            throw new JwtException(" Invalid Username or Password  !!");
         }
-
     }
 }
