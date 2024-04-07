@@ -3,6 +3,7 @@ package com.blog.dtos;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.blog.entities.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.Email;
@@ -40,4 +41,5 @@ public class UserDto {
 	private String createdAt;
 	
 	private Set<CommentDto> comments = new HashSet<>();
+	private Set<RoleDto> roles = new HashSet<>();
 }

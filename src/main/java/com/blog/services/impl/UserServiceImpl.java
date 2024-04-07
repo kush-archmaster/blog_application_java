@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.UserDto;
+import com.blog.entities.Role;
 import com.blog.entities.User;
 import com.blog.exception.ResourceNotFoundException;
 import com.blog.mapper.BlogSchemaMapper;
+import com.blog.repositories.RoleRepository;
 import com.blog.repositories.UserRepository;
 import com.blog.services.UserService;
 
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private BlogSchemaMapper blogSchemaMapper;
@@ -71,6 +76,17 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException(BlogApplicationConstant.USER, BlogApplicationConstant.ID, userId));
 		userRepository.delete(user);
+	}
+
+	@Override
+	public UserDto registerUser(UserDto userDto) {
+		User user = blogSchemaMapper.toUser(userDto);
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		Role role = roleRepository.findById(BlogApplicationConstant.STORE_MANAGER_ID).get();
+		user.getRoles().add(role);
+		
+		User newUser = userRepository.save(user);
+		return blogSchemaMapper.toUserDto(newUser);
 	}
 
 }

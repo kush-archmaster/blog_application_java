@@ -19,4 +19,7 @@ public class BlogApplicationConstant {
 	
     public static final String AUTH = "Authorization";
 	public static final String PREFIX_JWT_TOKEN = "Bearer";
+	
+	public static final Long ADMIN_ID = 3l;
+	public static final Long STORE_MANAGER_ID = 2l;
 }

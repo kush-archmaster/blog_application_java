@@ -6,6 +6,7 @@ import com.blog.dtos.UserDto;
 
 public interface UserService {
 
+	UserDto registerUser(UserDto user);
 	UserDto createUser(UserDto user);
 	UserDto updateUser(UserDto user, Long userId);
 	UserDto getUserById(Long userId);
