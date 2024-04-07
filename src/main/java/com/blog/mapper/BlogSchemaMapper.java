@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.blog.dtos.CategoryDto;
 import com.blog.dtos.CommentDto;
@@ -16,7 +17,7 @@ import com.blog.entities.Comment;
 import com.blog.entities.Post;
 import com.blog.entities.User;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BlogSchemaMapper {
 
 	@Mapping(target = "createdAt", expression = "java(getCurrentTime())")
