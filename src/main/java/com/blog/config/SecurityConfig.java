@@ -19,7 +19,7 @@ import com.blog.security.JwtAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)   // important for pre/post authorized/filter enable
-public class SecurityConfig {
+public class SecurityConfig{
 
 	@Autowired
     private JWTAuthenticationEntryPoint point;
@@ -30,15 +30,14 @@ public class SecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    
-    
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	// configuration
     	http.csrf(csrf -> csrf.disable())
     	.cors(cors -> cors.disable())
-    	.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/category/**", "/api/v1/comments/**", "/api/v1/user/**", "/api/v1/users/**", "/api/v1/post/**" ,"/api/v1/posts/**").authenticated()
-    			.requestMatchers("/api/v1/auth/**").permitAll()
+    	.authorizeHttpRequests(auth -> 
+    			auth.requestMatchers("/api/v1/category/**", "/api/v1/comments/**", "/api/v1/user/**", "/api/v1/users/**", "/api/v1/post/**" ,"/api/v1/posts/**").authenticated()
+    			.requestMatchers("/api/v1/auth/**", "/v3/api-docs", "/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/swagger-resources/**").permitAll()
     			.anyRequest().authenticated())
     	.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
     	.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

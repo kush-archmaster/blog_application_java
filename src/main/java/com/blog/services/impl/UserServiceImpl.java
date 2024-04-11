@@ -11,6 +11,7 @@ import com.blog.constants.BlogApplicationConstant;
 import com.blog.dtos.UserDto;
 import com.blog.entities.Role;
 import com.blog.entities.User;
+import com.blog.exception.ResourceAlreadyExistsException;
 import com.blog.exception.ResourceNotFoundException;
 import com.blog.mapper.BlogSchemaMapper;
 import com.blog.repositories.RoleRepository;
@@ -80,13 +81,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto registerUser(UserDto userDto) {
-		User user = blogSchemaMapper.toUser(userDto);
-		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-		Role role = roleRepository.findById(BlogApplicationConstant.STORE_MANAGER_ID).get();
-		user.getRoles().add(role);
-		
-		User newUser = userRepository.save(user);
-		return blogSchemaMapper.toUserDto(newUser);
+		if(!userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+			User user = blogSchemaMapper.toUser(userDto);
+			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+			Role role = roleRepository.findById(userDto.getRoleId()).get();
+			user.setRole(role);
+			
+			User newUser = userRepository.save(user);
+			return blogSchemaMapper.toUserDto(newUser);
+		}
+		else {
+			throw new ResourceAlreadyExistsException("Username already exists");
+		}
 	}
 
 }

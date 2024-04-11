@@ -34,7 +34,6 @@ public class UserController {
 	/*
 	 * Create a new user
 	 */
-	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userReq) {
 		 UserDto userDto = userService.createUser(userReq);
@@ -69,7 +68,7 @@ public class UserController {
 	}
 	
 	/*
-	 * Delete a user -- only ADMIN
+	 * Delete a user 
 	 */
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping(path = "/{userId}")

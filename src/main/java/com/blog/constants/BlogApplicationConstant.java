@@ -22,4 +22,5 @@ public class BlogApplicationConstant {
 	
 	public static final Long ADMIN_ID = 3l;
 	public static final Long STORE_MANAGER_ID = 2l;
+	public static final String ROLE_PREFIX = "ROLE_";
 }

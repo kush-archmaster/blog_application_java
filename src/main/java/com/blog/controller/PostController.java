@@ -88,7 +88,7 @@ public class PostController {
 	 * Delete a post
 	 */
 	@DeleteMapping(path = "/posts/{postId}")
-	public ResponseEntity<Map<String, String>> deleteCategoryById(@PathVariable String postId) {
+	public ResponseEntity<Map<String, String>> deleteCategoryById(@PathVariable String postId) {		
 		postService.deletePost(Long.parseLong(postId));
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(BlogApplicationConstant.MSG, BlogApplicationConstant.DELETE_SUCCESS);
