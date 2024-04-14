@@ -55,22 +55,10 @@ public class User implements UserDetails {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Comment> comments = new HashSet<>();
-
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "role_id"))
-//	private Set<Role> roles = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
-
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		/* Each role is a granted authority for a user */
-//		List<SimpleGrantedAuthority> rolesGrantedAuthorities = roles.stream()
-//				.map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-//		return rolesGrantedAuthorities;
-//	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
